@@ -10,46 +10,144 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: linear-gradient(135deg, #d4c5b9, #b8a99c, #9d8f82);
+            background: linear-gradient(135deg, #fff8f0, #ffede0, #ffe2d0, #ffd7c0);
             font-family: 'Microsoft YaHei', sans-serif;
             overflow: hidden;
         }
 
         .popup {
             position: fixed;
-            background: rgba(255, 255, 255, 0.9);
             border: none;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            font-size: 18px;
-            color: #6b5b73;
+            border-radius: 8px;
+            padding: 10px 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            text-align: left;
+            font-size: 16px;
+            color: #555;
+            min-width: 120px;
             max-width: 300px;
-            backdrop-filter: blur(10px);
+            height: auto;
+            font-family: 'DFKai-SB', '华康方圆体W7', 'Trebuchet MS', 'Comic Sans MS', 'Segoe UI Emoji', cursive, sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
             animation: fadeInScale 0.5s ease-out;
             z-index: 1000;
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .popup:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        /* 便签条颜色变体 - 温和可爱色系 */
+        .popup.peach {
+            background: linear-gradient(135deg, #ffeee6, #ffcab0);
+            border-left: 3px solid #ff9a76;
+        }
+
+        .popup.lavender {
+            background: linear-gradient(135deg, #f0e6ff, #d4c5f9);
+            border-left: 3px solid #b19cd9;
+        }
+
+        .popup.mint {
+            background: linear-gradient(135deg, #e6fff2, #b3f0d1);
+            border-left: 3px solid #7dd3a0;
+        }
+
+        .popup.cream {
+            background: linear-gradient(135deg, #fffef7, #fff2cc);
+            border-left: 3px solid #f4d03f;
+        }
+
+        .popup.rose {
+            background: linear-gradient(135deg, #ffe6f2, #ffb3d9);
+            border-left: 3px solid #ff80bf;
+        }
+
+        .popup.sky {
+            background: linear-gradient(135deg, #e6f3ff, #b3d9ff);
+            border-left: 3px solid #80bfff;
+        }
+
+        .popup.coral {
+            background: linear-gradient(135deg, #fff0e6, #ffd4b3);
+            border-left: 3px solid #ffaa80;
+        }
+
+        .popup.lilac {
+            background: linear-gradient(135deg, #f2e6ff, #d9b3ff);
+            border-left: 3px solid #bf80ff;
+        }
+
+        .popup.sage {
+            background: linear-gradient(135deg, #f0f5e6, #d4e6b3);
+            border-left: 3px solid #a6cc80;
+        }
+
+        .popup.blush {
+            background: linear-gradient(135deg, #ffe6eb, #ffb3c1);
+            border-left: 3px solid #ff8099;
         }
 
         .popup-content {
-            margin-bottom: 20px;
-            line-height: 1.6;
+            margin: 0;
+            line-height: 1.4;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .close-btn {
-            background: #a8998a;
-            color: white;
+            background: rgba(0, 0, 0, 0.1);
+            color: #666;
             border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
+            padding: 2px 6px;
+            border-radius: 2px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 10px;
             transition: background 0.3s;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-family: Arial, sans-serif;
+            line-height: 1;
         }
 
         .close-btn:hover {
-            background: #8b7d6b;
+            background: rgba(0, 0, 0, 0.2);
         }
+
+        /* 便签条上的小装饰 - 可爱胶带效果 */
+        .popup::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 添加小星星装饰 */
+        .popup::after {
+            content: '✨';
+            position: absolute;
+            top: -2px;
+            right: 5px;
+            font-size: 10px;
+            opacity: 0.7;
+        }
+
+
 
         @keyframes fadeInScale {
             from {
@@ -144,23 +242,31 @@
 
         function createPopup() {
             const popup = document.createElement('div');
-            popup.className = 'popup';
+
+            // 随机选择便签条颜色
+            const colors = ['peach', 'lavender', 'mint', 'cream', 'rose', 'sky', 'coral', 'lilac', 'sage', 'blush'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            popup.className = `popup ${randomColor}`;
 
             const randomMessage = romanticMessages[Math.floor(Math.random() * romanticMessages.length)];
 
             popup.innerHTML = `
                 <div class="popup-content">${randomMessage}</div>
-                <button class="close-btn" onclick="closePopup(this)">知道了 ❤️</button>
+                <button class="close-btn" onclick="closePopup(this)">×</button>
             `;
 
             // 随机位置
-            const maxX = window.innerWidth - 350;
-            const maxY = window.innerHeight - 200;
+            const maxX = window.innerWidth - 280;
+            const maxY = window.innerHeight - 50;
             const x = Math.random() * maxX;
             const y = Math.random() * maxY;
 
             popup.style.left = x + 'px';
             popup.style.top = y + 'px';
+
+            // 随机旋转角度，让便签条更自然
+            const rotation = (Math.random() - 0.5) * 10; // -5度到5度
+            popup.style.transform = `rotate(${rotation}deg)`;
 
             document.body.appendChild(popup);
             popupCount++;
@@ -214,9 +320,9 @@
             }, 3000);
         }
 
-        // 每0.5-1.5秒不断弹出窗口
+        // 每0.3-0.8秒不断弹出窗口 - 超高频率
         function scheduleNextPopup() {
-            const delay = Math.random() * 1000 + 500; // 0.5-1.5秒
+            const delay = Math.random() * 500 + 300; // 0.3-0.8秒
             setTimeout(() => {
                 createPopup(); // 移除数量限制，不断弹出
                 scheduleNextPopup();
@@ -225,7 +331,7 @@
 
         // 额外的弹窗生成器，让弹窗更频繁
         function scheduleExtraPopup() {
-            const delay = Math.random() * 1500 + 800; // 0.8-2.3秒
+            const delay = Math.random() * 600 + 400; // 0.4-1.0秒
             setTimeout(() => {
                 createPopup();
                 scheduleExtraPopup();
@@ -234,10 +340,28 @@
 
         // 第三个弹窗生成器
         function scheduleMorePopup() {
-            const delay = Math.random() * 2000 + 1200; // 1.2-3.2秒
+            const delay = Math.random() * 800 + 500; // 0.5-1.3秒
             setTimeout(() => {
                 createPopup();
                 scheduleMorePopup();
+            }, delay);
+        }
+
+        // 第四个弹窗生成器 - 新增
+        function scheduleUltraPopup() {
+            const delay = Math.random() * 700 + 600; // 0.6-1.3秒
+            setTimeout(() => {
+                createPopup();
+                scheduleUltraPopup();
+            }, delay);
+        }
+
+        // 第五个弹窗生成器 - 新增
+        function scheduleMegaPopup() {
+            const delay = Math.random() * 900 + 400; // 0.4-1.3秒
+            setTimeout(() => {
+                createPopup();
+                scheduleMegaPopup();
             }, delay);
         }
 
@@ -245,18 +369,25 @@
         window.onload = function () {
             createPopup(); // 立即显示第一个
 
-            // 启动多个弹窗生成器，让弹窗更频繁
+            // 启动多个弹窗生成器，让弹窗超级频繁
             scheduleNextPopup();
-            setTimeout(() => scheduleExtraPopup(), 300); // 延迟300ms启动第二个
-            setTimeout(() => scheduleMorePopup(), 600); // 延迟600ms启动第三个
+            setTimeout(() => scheduleExtraPopup(), 200); // 延迟200ms启动第二个
+            setTimeout(() => scheduleMorePopup(), 400); // 延迟400ms启动第三个
+            setTimeout(() => scheduleUltraPopup(), 600); // 延迟600ms启动第四个
+            setTimeout(() => scheduleMegaPopup(), 800); // 延迟800ms启动第五个
 
-            // 每2秒添加一个心形（更频繁）
-            setInterval(createHeart, 2000);
+            // 每1秒添加一个心形（更频繁）
+            setInterval(createHeart, 1000);
 
-            // 额外的定时弹窗
+            // 额外的定时弹窗 - 更频繁
             setInterval(() => {
                 createPopup();
-            }, 2500); // 每2.5秒固定弹出一个
+            }, 1200); // 每1.2秒固定弹出一个
+
+            // 超级定时弹窗 - 新增
+            setInterval(() => {
+                createPopup();
+            }, 800); // 每0.8秒固定弹出一个
 
             // 提示用户可以手动关闭弹窗
             setTimeout(() => {
