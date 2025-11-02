@@ -43,7 +43,7 @@
             transform: rotate(0deg) scale(1.05);
         }
 
-        /* 便签条颜色变体 - 温和可爱色系 */
+
         .popup.peach {
             background: linear-gradient(135deg, #ffeee6, #ffcab0);
             border-left: 3px solid #ff9a76;
@@ -123,7 +123,7 @@
             background: rgba(0, 0, 0, 0.2);
         }
 
-        /* 便签条上的小装饰 - 可爱胶带效果 */
+
         .popup::before {
             content: '';
             position: absolute;
@@ -137,7 +137,7 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        /* 添加小星星装饰 */
+
         .popup::after {
             content: '✨';
             position: absolute;
@@ -243,7 +243,7 @@
         function createPopup() {
             const popup = document.createElement('div');
 
-            // 随机选择便签条颜色
+
             const colors = ['peach', 'lavender', 'mint', 'cream', 'rose', 'sky', 'coral', 'lilac', 'sage', 'blush'];
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
             popup.className = `popup ${randomColor}`;
@@ -255,7 +255,7 @@
                 <button class="close-btn" onclick="closePopup(this)">×</button>
             `;
 
-            // 随机位置
+
             const maxX = window.innerWidth - 280;
             const maxY = window.innerHeight - 50;
             const x = Math.random() * maxX;
@@ -264,18 +264,16 @@
             popup.style.left = x + 'px';
             popup.style.top = y + 'px';
 
-            // 随机旋转角度，让便签条更自然
-            const rotation = (Math.random() - 0.5) * 10; // -5度到5度
+            const rotation = (Math.random() - 0.5) * 10;
             popup.style.transform = `rotate(${rotation}deg)`;
 
             document.body.appendChild(popup);
             popupCount++;
 
-            // 添加飘浮的心形
+
             createHeart();
 
-            // 可选：启用自动关闭（取消注释下面这行）
-            // autoClosePopup(popup);
+
         }
 
         function closePopup(button) {
@@ -287,7 +285,7 @@
             }, 300);
         }
 
-        // 自动关闭弹窗（可选功能）
+
         function autoClosePopup(popup) {
             setTimeout(() => {
                 if (popup.parentElement) {
@@ -299,7 +297,7 @@
                         }
                     }, 300);
                 }
-            }, 8000); // 8秒后自动关闭
+            }, 8000);
         }
 
         function createHeart() {
@@ -320,82 +318,66 @@
             }, 3000);
         }
 
-        // 每0.3-0.8秒不断弹出窗口 - 超高频率
         function scheduleNextPopup() {
-            const delay = Math.random() * 500 + 300; // 0.3-0.8秒
+            const delay = Math.random() * 500 + 300;
             setTimeout(() => {
-                createPopup(); // 移除数量限制，不断弹出
+                createPopup();
                 scheduleNextPopup();
             }, delay);
         }
 
-        // 额外的弹窗生成器，让弹窗更频繁
         function scheduleExtraPopup() {
-            const delay = Math.random() * 600 + 400; // 0.4-1.0秒
+            const delay = Math.random() * 600 + 400;
             setTimeout(() => {
                 createPopup();
                 scheduleExtraPopup();
             }, delay);
         }
 
-        // 第三个弹窗生成器
         function scheduleMorePopup() {
-            const delay = Math.random() * 800 + 500; // 0.5-1.3秒
+            const delay = Math.random() * 800 + 500;
             setTimeout(() => {
                 createPopup();
                 scheduleMorePopup();
             }, delay);
         }
 
-        // 第四个弹窗生成器 - 新增
         function scheduleUltraPopup() {
-            const delay = Math.random() * 700 + 600; // 0.6-1.3秒
+            const delay = Math.random() * 700 + 600;
             setTimeout(() => {
                 createPopup();
                 scheduleUltraPopup();
             }, delay);
         }
 
-        // 第五个弹窗生成器 - 新增
         function scheduleMegaPopup() {
-            const delay = Math.random() * 900 + 400; // 0.4-1.3秒
+            const delay = Math.random() * 900 + 400;
             setTimeout(() => {
                 createPopup();
                 scheduleMegaPopup();
             }, delay);
         }
 
-        // 页面加载后开始
         window.onload = function () {
-            createPopup(); // 立即显示第一个
-
-            // 启动多个弹窗生成器，让弹窗超级频繁
+            createPopup();
             scheduleNextPopup();
-            setTimeout(() => scheduleExtraPopup(), 200); // 延迟200ms启动第二个
-            setTimeout(() => scheduleMorePopup(), 400); // 延迟400ms启动第三个
-            setTimeout(() => scheduleUltraPopup(), 600); // 延迟600ms启动第四个
-            setTimeout(() => scheduleMegaPopup(), 800); // 延迟800ms启动第五个
-
-            // 每1秒添加一个心形（更频繁）
+            setTimeout(() => scheduleExtraPopup(), 200);
+            setTimeout(() => scheduleMorePopup(), 400);
+            setTimeout(() => scheduleUltraPopup(), 600);
+            setTimeout(() => scheduleMegaPopup(), 800);
             setInterval(createHeart, 1000);
-
-            // 额外的定时弹窗 - 更频繁
             setInterval(() => {
                 createPopup();
-            }, 1200); // 每1.2秒固定弹出一个
-
-            // 超级定时弹窗 - 新增
+            }, 1200);
             setInterval(() => {
                 createPopup();
-            }, 800); // 每0.8秒固定弹出一个
-
-            // 提示用户可以手动关闭弹窗
+            }, 800);
             setTimeout(() => {
                 console.log('提示：弹窗会不断出现，点击"知道了❤️"可以关闭单个弹窗');
             }, 3000);
         };
 
-        // 点击背景也会产生心形效果
+
         document.body.addEventListener('click', function (e) {
             if (e.target === document.body) {
                 const heart = document.createElement('div');
