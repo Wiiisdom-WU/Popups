@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浪漫弹窗</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #d4c5b9, #b8a99c, #9d8f82);
+            font-family: 'Microsoft YaHei', sans-serif;
+            overflow: hidden;
+        }
+
+        .popup {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            font-size: 18px;
+            color: #6b5b73;
+            max-width: 300px;
+            backdrop-filter: blur(10px);
+            animation: fadeInScale 0.5s ease-out;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .close-btn {
+            background: #a8998a;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #8b7d6b;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .heart {
+            position: absolute;
+            color: #d4a574;
+            font-size: 20px;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        const romanticMessages = [
+            "我好想你 💕",
+            "今晚月色真美 🌙",
+            "你是我心中最亮的星 ⭐",
+            "想和你一起看日落 🌅",
+            "你的笑容比春天还温暖 🌸",
+            "愿与你共度每个黄昏 🌆",
+            "你是我生命中最美的意外 💫",
+            "想牵着你的手走过四季 🍃",
+            "你的眼睛里有我想要的未来 👀",
+            "和你在一起的时光总是太短 ⏰",
+            "你是我心中永远的诗 📝",
+            "想给你全世界的温柔 🌍",
+            "你是我见过最美的风景 🏞️",
+            "想和你一起慢慢变老 👫",
+            "你的声音是最动听的音乐 🎵",
+            "想偷偷亲吻你的额头 😘",
+            "你的怀抱是我最安全的港湾 🏠",
+            "想和你在雨中漫步 🌧️",
+            "你的温柔让我沦陷 💖",
+            "想做你心尖上的人 💓",
+            "你是我甜甜的梦境 🌸",
+            "想和你看遍世间繁华 🎆",
+            "你的每个表情都让我心动 😍",
+            "想成为你的小确幸 🍀",
+            "你是我生命里的光 ✨",
+            "想和你一起数星星 ⭐",
+            "你的吻比蜜糖还甜 🍯",
+            "想永远陪在你身边 👫",
+            "你是我心中的小太阳 ☀️",
+            "想和你一起看樱花飞舞 🌸",
+            "你的手心有我想要的温暖 🤝",
+            "想做你独一无二的宝贝 💎",
+            "你是我心中最柔软的地方 💕",
+            "想和你一起去看海 🌊",
+            "你的每一个微笑都是我的心动 😊",
+            "想偷走你的心 💘",
+            "你是我最美好的遇见 🌹",
+            "想和你一起慢慢变老 👴👵",
+            "你的眼神让我迷失方向 👁️",
+            "想给你全世界的宠爱 🌍",
+            "你是我心中永恒的诗篇 📖",
+            "想和你一起看日出日落 🌅🌇",
+            "你的声音是我最爱的催眠曲 🎶",
+            "想做你心中的那个人 💝",
+            "你是我生命中最美的奇迹 ✨",
+            "想和你一起走过每个春夏秋冬 🌺❄️",
+            "你的拥抱治愈了我所有的不安 🤗",
+            "想偷偷告诉你我爱你 💌",
+            "你是我心中最亮的那颗星 🌟",
+            "想和你一起做甜甜的梦 😴💭"
+        ];
+
+        let popupCount = 0;
+
+        function createPopup() {
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+
+            const randomMessage = romanticMessages[Math.floor(Math.random() * romanticMessages.length)];
+
+            popup.innerHTML = `
+                <div class="popup-content">${randomMessage}</div>
+                <button class="close-btn" onclick="closePopup(this)">知道了 ❤️</button>
+            `;
+
+            // 随机位置
+            const maxX = window.innerWidth - 350;
+            const maxY = window.innerHeight - 200;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+
+            popup.style.left = x + 'px';
+            popup.style.top = y + 'px';
+
+            document.body.appendChild(popup);
+            popupCount++;
+
+            // 添加飘浮的心形
+            createHeart();
+
+            // 可选：启用自动关闭（取消注释下面这行）
+            // autoClosePopup(popup);
+        }
+
+        function closePopup(button) {
+            const popup = button.parentElement;
+            popup.style.animation = 'fadeInScale 0.3s ease-out reverse';
+            setTimeout(() => {
+                popup.remove();
+                popupCount--;
+            }, 300);
+        }
+
+        // 自动关闭弹窗（可选功能）
+        function autoClosePopup(popup) {
+            setTimeout(() => {
+                if (popup.parentElement) {
+                    popup.style.animation = 'fadeInScale 0.3s ease-out reverse';
+                    setTimeout(() => {
+                        if (popup.parentElement) {
+                            popup.remove();
+                            popupCount--;
+                        }
+                    }, 300);
+                }
+            }, 8000); // 8秒后自动关闭
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💖';
+
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        }
+
+        // 每0.5-1.5秒不断弹出窗口
+        function scheduleNextPopup() {
+            const delay = Math.random() * 1000 + 500; // 0.5-1.5秒
+            setTimeout(() => {
+                createPopup(); // 移除数量限制，不断弹出
+                scheduleNextPopup();
+            }, delay);
+        }
+
+        // 额外的弹窗生成器，让弹窗更频繁
+        function scheduleExtraPopup() {
+            const delay = Math.random() * 1500 + 800; // 0.8-2.3秒
+            setTimeout(() => {
+                createPopup();
+                scheduleExtraPopup();
+            }, delay);
+        }
+
+        // 第三个弹窗生成器
+        function scheduleMorePopup() {
+            const delay = Math.random() * 2000 + 1200; // 1.2-3.2秒
+            setTimeout(() => {
+                createPopup();
+                scheduleMorePopup();
+            }, delay);
+        }
+
+        // 页面加载后开始
+        window.onload = function () {
+            createPopup(); // 立即显示第一个
+
+            // 启动多个弹窗生成器，让弹窗更频繁
+            scheduleNextPopup();
+            setTimeout(() => scheduleExtraPopup(), 300); // 延迟300ms启动第二个
+            setTimeout(() => scheduleMorePopup(), 600); // 延迟600ms启动第三个
+
+            // 每2秒添加一个心形（更频繁）
+            setInterval(createHeart, 2000);
+
+            // 额外的定时弹窗
+            setInterval(() => {
+                createPopup();
+            }, 2500); // 每2.5秒固定弹出一个
+
+            // 提示用户可以手动关闭弹窗
+            setTimeout(() => {
+                console.log('提示：弹窗会不断出现，点击"知道了❤️"可以关闭单个弹窗');
+            }, 3000);
+        };
+
+        // 点击背景也会产生心形效果
+        document.body.addEventListener('click', function (e) {
+            if (e.target === document.body) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '💕';
+                heart.style.left = e.clientX + 'px';
+                heart.style.top = e.clientY + 'px';
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+
+</html>
